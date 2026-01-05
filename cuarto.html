@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .calendar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 320px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .month-year {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .day-name {
+            font-weight: bold;
+            padding: 5px 0;
+        }
+
+        .day {
+            padding: 10px 0;
+            margin: 2px;
+            border-radius: 5px;
+        }
+
+        /* 🔴 Sábados y domingos */
+        .weekend {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        /* 🟢 Día actual */
+        .today {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calendar">
+    <div class="header">
+        <button onclick="changeMonth(-1)">◀</button>
+        <div class="month-year" id="monthYear"></div>
+        <button onclick="changeMonth(1)">▶</button>
+    </div>
+
+    <div class="days" id="calendarDays"></div>
+</div>
+
+<script>
+    const monthNames = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+    let currentDate = new Date();
+
+    function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        document.getElementById("monthYear").textContent =
+            `${monthNames[month]} ${year}`;
+
+        const calendarDays = document.getElementById("calendarDays");
+        calendarDays.innerHTML = "";
+
+        // Encabezados
+        dayNames.forEach(day => {
+            const div = document.createElement("div");
+            div.className = "day-name";
+            div.textContent = day;
+            calendarDays.appendChild(div);
+        });
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const totalDays = new Date(year, month + 1, 0).getDate();
+        const today = new Date();
+
+        // Espacios antes del día 1
+        for (let i = 0; i < firstDay; i++) {
+            calendarDays.appendChild(document.createElement("div"));
+        }
+
+        // Días del mes
+        for (let day = 1; day <= totalDays; day++) {
+            const div = document.createElement("div");
+            div.className = "day";
+            div.textContent = day;
+
+            const dayOfWeek = (firstDay + day - 1) % 7;
+
+            // 0 = domingo, 6 = sábado
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                div.classList.add("weekend");
+            }
+
+            // Día actual
+            if (
+                day === today.getDate() &&
+                month === today.getMonth() &&
+                year === today.getFullYear()
+            ) {
+                div.classList.add("today");
+            }
+
+            calendarDays.appendChild(div);
+        }
+    }
+
+    function changeMonth(offset) {
+        currentDate.setMonth(currentDate.getMonth() + offset);
+        renderCalendar();
+    }
+
+    renderCalendar();
+</script>
+
+</body>
+</html>

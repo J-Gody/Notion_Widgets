@@ -61,8 +61,8 @@
             color: white;
             font-weight: bold;
         }
-      .weekend {
-    color: #388e3c;
+        .weekend {
+    color: #d32f2f;
     font-weight: bold;
 }
     </style>
@@ -119,22 +119,22 @@
         }
 
         // Días del mes
-        for (let day = 1; day <= totalDays; day++) {
-            const div = document.createElement("div");
-            div.className = "day";
-            div.textContent = day;
+       for (let day = 1; day <= totalDays; day++) {
+    const div = document.createElement("div");
+    div.className = "day";
+    div.textContent = day;
 
-            if (
-                day === today.getDate() &&
-                month === today.getMonth() &&
-                year === today.getFullYear()
-            ) {
-                div.classList.add("today");
-            }
+    // 👇 AQUÍ VA EL CÓDIGO PARA SAB / DOM
+    const dayOfWeek = (firstDay + day - 1) % 7;
 
-            calendarDays.appendChild(div);
-        }
+    // Si la semana empieza en DOMINGO
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        div.classList.add("weekend");
     }
+
+    calendarDays.appendChild(div);
+}
+
 
     function changeMonth(offset) {
         currentDate.setMonth(currentDate.getMonth() + offset);

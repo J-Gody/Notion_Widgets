@@ -55,7 +55,7 @@
         }
 
         /* 🔴 Sábados y domingos */
-        .weekend {
+        .sunday {
             color: #d32f2f;
             font-weight: bold;
         }
@@ -126,8 +126,8 @@
             const dayOfWeek = (firstDay + day - 1) % 7;
 
             // 0 = domingo, 6 = sábado
-            if (dayOfWeek === 0 || dayOfWeek === 6) {
-                div.classList.add("weekend");
+            if (dayOfWeek === 0) {
+                div.classList.add("sunday");
             }
 
             // Día actual

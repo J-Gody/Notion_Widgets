@@ -22,9 +22,24 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
             background-color: #C0E6A1;
+        }
+
+        .title{
+            text-align:center;
+            line-height: 1.2;
+        }
+
+        .month{
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .year{
+            font-size: 14px;
+            font-weight-bold;
         }
 
         .header button {
@@ -35,11 +50,6 @@
             cursor: pointer;
             background-color: #AAA1E6;
             font-size: 8px;
-        }
-
-        .month-year {
-            font-weight: bold;
-            font-size: 18px;
         }
 
         .days {
@@ -81,7 +91,10 @@
 <div class="calendar">
     <div class="header">
         <button onclick="changeMonth(-1)">◀</button>
-        <div class="month-year" id="monthYear"></div>
+        <div class="title">
+            <div class="month" id="month"></div>
+            <div class="year" id="year"></div>
+        </div>
         <button onclick="changeMonth(1)">▶</button>
     </div>
 
@@ -102,9 +115,8 @@
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
 
-        document.getElementById("monthYear").textContent =
-            `${monthNames[month]} ${year}`;
-
+        document.getElementById("month").textContent = monthNames[month];
+        document.getElementById("year").textContent = year;
         const calendarDays = document.getElementById("calendarDays");
         calendarDays.innerHTML = "";
 

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cuenta regresiva</title>
+
+<style>
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 260px;
+    text-align: center;
+  }
+
+  h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+  }
+
+  input {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+  }
+
+  .counter {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .box {
+    flex: 1;
+    background: #f5f6fa;
+    border-radius: 10px;
+    padding: 10px 0;
+  }
+
+  .number {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .label {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  .message {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #888;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h3>Cuenta regresiva</h3>
+
+  <input type="date" id="targetDate">
+
+  <div class="counter">
+    <div class="box">
+      <div class="number" id="months">--</div>
+      <div class="label">Meses</div>
+    </div>
+    <div class="box">
+      <div class="number" id="days">--</div>
+      <div class="label">Días</div>
+    </div>
+  </div>
+
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+const input = document.getElementById("targetDate");
+const monthsEl = document.getElementById("months");
+const daysEl = document.getElementById("days");
+const message = document.getElementById("message");
+
+// Cargar fecha guardada al abrir
+window.addEventListener("DOMContentLoaded", () => {
+  const savedDate = localStorage.getItem("targetDate");
+
+  if (savedDate) {
+    input.value = savedDate;
+    updateCountdown();
+  } else {
+    message.textContent = "Selecciona una fecha objetivo";
+  }
+});
+
+// Guardar fecha cuando cambia
+input.addEventListener("change", () => {
+  localStorage.setItem("targetDate", input.value);
+  updateCountdown();
+});
+
+function updateCountdown() {
+  if (!input.value) return;
+
+  const today = new Date();
+  const target = new Date(input.value);
+
+  if (target <= today) {
+    monthsEl.textContent = "0";
+    daysEl.textContent = "0";
+    message.textContent = "Fecha alcanzada 🎉";
+    return;
+  }
+
+  let years = target.getFullYear() - today.getFullYear();
+  let months = target.getMonth() - today.getMonth();
+  let days = target.getDate() - today.getDate();
+
+  if (days < 0) {
+    months--;
+    const lastMonthDays = new Date(
+      target.getFullYear(),
+      target.getMonth(),
+      0
+    ).getDate();
+    days += lastMonthDays;
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  const totalMonths = years * 12 + months;
+
+  monthsEl.textContent = totalMonths;
+  daysEl.textContent = days;
+  message.textContent = "Tiempo restante";
+}
+  setInterval(updateCountdown, 60 * 60 * 1000);
+</script>
+
+
+
+</body>
+</html>

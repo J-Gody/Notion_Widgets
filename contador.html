@@ -74,7 +74,15 @@ input[type="date"] {
     background: #f3e8ff;
     border-radius: 10px;
     padding: 10px;
+    transition: background-color 0.3s ease;
 }
+  .urgent{
+    background: #fee2e2;
+  }
+
+  .done{
+    background: #dcfce7;
+  }
 
   .number {
     font-size: 28px;
@@ -115,9 +123,16 @@ input[type="date"] {
       <div class="label">Días</div>
     </div>
   </div>
+  
+</div>
+  <div class="box days-box">
+  <div class="number" id="days">--</div>
+  <div class="label">Días</div>
 </div>
 
+
 <script>
+const daysBox = document.querySelector(".days-box");
 const input = document.getElementById("targetDate");
 const toggleBtn = document.getElementById("toggleDate");
 const monthsEl = document.getElementById("months");
@@ -178,6 +193,12 @@ function updateCountdown() {
 
   monthsEl.textContent = years * 12 + months;
   daysEl.textContent = days;
+
+  if (days === 0 && monthsEl.textContent === "0") {
+  daysBox.classList.add("done");
+} else if (days <= 7) {
+  daysBox.classList.add("urgent");
+}
 }
 </script>
 

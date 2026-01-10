@@ -25,15 +25,37 @@
     font-size: 16px;
   }
 
-  input {
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
+  .date-control {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
-input:hover,
-input:focus {
-  opacity: 1;
+button#toggleDate {
+  background: #f5f6fa;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 16px;
+  cursor: pointer;
 }
+
+button#toggleDate:hover {
+  background: #e9ebf3;
+}
+
+input.hidden {
+  display: none;
+}
+
+input[type="date"] {
+  margin-left: 8px;
+  padding: 2px 6px;
+  font-size: 11px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
 
   
   .counter {
@@ -73,7 +95,10 @@ input:focus {
 
 <div class="container">
 
-  <input type="date" id="targetDate">
+  <div class="date-control">
+  <button id="toggleDate" title="Cambiar fecha">📅</button>
+  <input type="date" id="targetDate" class="hidden">
+</div>
 
   <div class="counter">
     <div class="box">
@@ -89,26 +114,30 @@ input:focus {
 
 <script>
 const input = document.getElementById("targetDate");
+const toggleBtn = document.getElementById("toggleDate");
 const monthsEl = document.getElementById("months");
 const daysEl = document.getElementById("days");
-const message = document.getElementById("message");
 
-// Cargar fecha guardada al abrir
+// Mostrar / ocultar input
+toggleBtn.addEventListener("click", () => {
+  input.classList.toggle("hidden");
+  input.focus();
+});
+
+// Cargar fecha guardada
 window.addEventListener("DOMContentLoaded", () => {
   const savedDate = localStorage.getItem("targetDate");
-
   if (savedDate) {
     input.value = savedDate;
     updateCountdown();
-  } else {
-    message.textContent = "Selecciona una fecha objetivo";
   }
 });
 
-// Guardar fecha cuando cambia
+// Guardar fecha y ocultar input
 input.addEventListener("change", () => {
   localStorage.setItem("targetDate", input.value);
   updateCountdown();
+  input.classList.add("hidden");
 });
 
 function updateCountdown() {
@@ -120,7 +149,6 @@ function updateCountdown() {
   if (target <= today) {
     monthsEl.textContent = "0";
     daysEl.textContent = "0";
-    message.textContent = "Fecha alcanzada 🎉";
     return;
   }
 
@@ -143,14 +171,10 @@ function updateCountdown() {
     months += 12;
   }
 
-  const totalMonths = years * 12 + months;
-
-  monthsEl.textContent = totalMonths;
+  monthsEl.textContent = years * 12 + months;
   daysEl.textContent = days;
 }
-  setInterval(updateCountdown, 60 * 60 * 1000);
 </script>
-
 
 
 </body>

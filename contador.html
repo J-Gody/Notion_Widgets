@@ -26,13 +26,15 @@
   }
 
   input {
-  width: 100%;
-  padding: 2px 4px;
-  font-size: 10px;
-  border-radius: 4px;
-  border: 1px solid #eee;
-  background: #fafafa;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
+
+input:hover,
+input:focus {
+  opacity: 1;
+}
+
   
   .counter {
     display: flex;

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendario Fijo para Notion</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .calendar {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      border: 1px solid #ececec;
+    }
+
+    .calendar-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar-header h1 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .calendar-header p {
+      color: #777;
+      font-size: 0.95rem;
+    }
+
+    .weekdays,
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .weekdays div {
+      text-align: center;
+      font-weight: bold;
+      color: #666;
+      font-size: 0.85rem;
+      padding-bottom: 8px;
+    }
+
+    .day {
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      color: #333;
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+
+    .empty {
+      background: transparent;
+    }
+
+    .normal-day {
+      background: #f6f7fb;
+    }
+
+    .normal-day:hover {
+      background: #e8ebf5;
+    }
+
+    /* Semana resaltada */
+    .highlight {
+      background: #b8d8ff;
+      color: #114488;
+      font-weight: bold;
+      box-shadow: inset 0 0 0 2px #6fa9ff;
+    }
+
+    /* Día actual opcional */
+    .today {
+      border: 2px solid #7c5cff;
+      font-weight: bold;
+    }
+
+    .legend {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #666;
+      font-size: 0.85rem;
+      justify-content: center;
+    }
+
+    .legend-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      background: #b8d8ff;
+      border: 1px solid #6fa9ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calendar">
+    <div class="calendar-header">
+      <h1 id="monthTitle"></h1>
+      <p>Calendario fijo para Notion</p>
+    </div>
+
+    <div class="weekdays">
+      <div>Lun</div>
+      <div>Mar</div>
+      <div>Mié</div>
+      <div>Jue</div>
+      <div>Vie</div>
+      <div>Sáb</div>
+      <div>Dom</div>
+    </div>
+
+    <div class="days" id="calendarDays"></div>
+
+    <div class="legend">
+      <div class="legend-box"></div>
+      <span>Semana destacada</span>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================
+       CONFIGURACIÓN PERSONALIZABLE
+    ====================================== */
+
+    // Mes fijo (0 = Enero, 11 = Diciembre)
+    const selectedMonth = 4; // Mayo
+
+    // Año fijo
+    const selectedYear = 2026;
+
+    // Semana que deseas resaltar
+    // 1 = primera semana
+    // 2 = segunda semana
+    // 3 = tercera semana...
+    const highlightedWeek = 3;
+
+    /* ===================================== */
+
+    const monthNames = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'
+    ];
+
+    const monthTitle = document.getElementById('monthTitle');
+    const calendarDays = document.getElementById('calendarDays');
+
+    monthTitle.textContent = `${monthNames[selectedMonth]} ${selectedYear}`;
+
+    // Primer día del mes
+    let firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
+
+    // Ajuste para iniciar en lunes
+    firstDay = firstDay === 0 ? 6 : firstDay - 1;
+
+    // Número de días del mes
+    const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+
+    // Espacios vacíos antes del primer día
+    for (let i = 0; i < firstDay; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.classList.add('day', 'empty');
+      calendarDays.appendChild(emptyCell);
+    }
+
+    // Generar días del calendario
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayCell = document.createElement('div');
+      dayCell.classList.add('day', 'normal-day');
+      dayCell.textContent = day;
+
+      // Detectar semana
+      const currentWeek = Math.ceil((day + firstDay) / 7);
+
+      // Resaltar semana indicada
+      if (currentWeek === highlightedWeek) {
+        dayCell.classList.add('highlight');
+      }
+
+      // Opcional: resaltar el día actual si coincide
+      const today = new Date();
+
+      if (
+        day === today.getDate() &&
+        selectedMonth === today.getMonth() &&
+        selectedYear === today.getFullYear()
+      ) {
+        dayCell.classList.add('today');
+      }
+
+      calendarDays.appendChild(dayCell);
+    }
+  </script>
+
+</body>
+</html>

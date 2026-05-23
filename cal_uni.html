@@ -124,25 +124,20 @@
   <div class="calendar">
     <div class="calendar-header">
       <h1 id="monthTitle"></h1>
-      <p>Calendario fijo para Notion</p>
     </div>
 
     <div class="weekdays">
-      <div>Lun</div>
-      <div>Mar</div>
-      <div>Mié</div>
-      <div>Jue</div>
-      <div>Vie</div>
-      <div>Sáb</div>
-      <div>Dom</div>
+      <div>L</div>
+      <div>M</div>
+      <div>Mi</div>
+      <div>J</div>
+      <div>V</div>
+      <div>S</div>
+      <div>D</div>
     </div>
 
     <div class="days" id="calendarDays"></div>
 
-    <div class="legend">
-      <div class="legend-box"></div>
-      <span>Semana destacada</span>
-    </div>
   </div>
 
   <script>
@@ -182,7 +177,7 @@
     const monthTitle = document.getElementById('monthTitle');
     const calendarDays = document.getElementById('calendarDays');
 
-    monthTitle.textContent = `${monthNames[selectedMonth]} ${selectedYear}`;
+    monthTitle.textContent = `${monthNames[selectedMonth]}`;
 
     // Primer día del mes
     let firstDay = new Date(selectedYear, selectedMonth, 1).getDay();

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Fuente opcional -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+
+
+  <title>Texto Resaltado</title>
+
+  <style>
+    body{
+      margin:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      background:transparent;
+      font-family:'Inter', sans-serif;
+    }
+
+    .highlight-box{
+      background:#b8f2e6;
+      padding:14px 28px;
+      border-radius:12px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      /* efecto suave tipo marcador */
+      box-shadow:
+        0 0 0 2px rgba(255, 235, 59, 0.15),
+        0 4px 10px rgba(0,0,0,0.05);
+
+      transform:rotate(-1deg);
+    }
+
+    .highlight-text{
+      color:#333;
+      font-family: "Roboto Slab", serif;
+      font-size:1.1rem;
+      font-weight:600;
+      text-align:center;
+      text-transform: uppercase;
+      letter-spacing:0.3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="highlight-box">
+    <div class="highlight-text">
+      Eventos importantes
+    </div>
+  </div>
+
+</body>
+</html>
